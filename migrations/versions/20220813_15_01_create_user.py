@@ -1,8 +1,8 @@
 """create_user
 
-Revision ID: c592b10c4362
+Revision ID: ea86be36e21f
 Revises: 
-Create Date: 2022-08-13 14:38:47.143098
+Create Date: 2022-08-13 15:01:19.289168
 
 """
 from alembic import op
@@ -11,7 +11,7 @@ import sqlmodel
 
 
 # revision identifiers, used by Alembic.
-revision = 'c592b10c4362'
+revision = 'ea86be36e21f'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -24,13 +24,14 @@ def upgrade():
     sa.Column('status', sa.Enum('ACTIVE', 'INACTIVE', name='userstatus'), nullable=True),
     sa.Column('created_by', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
     sa.Column('created_on', sa.DateTime(), nullable=False),
-    sa.Column('id', sqlmodel.sql.sqltypes.GUID(), nullable=True),
+    sa.Column('id', sqlmodel.sql.sqltypes.GUID(), nullable=False),
     sa.Column('modified_by', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
     sa.Column('modified_on', sa.DateTime(), nullable=False),
     sa.Column('row_version', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
     sa.Column('date_of_birth', sa.Date(), nullable=False),
     sa.Column('email', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
     sa.Column('first_name', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
+    sa.Column('hashed_password', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
     sa.Column('last_name', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )

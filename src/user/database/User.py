@@ -15,9 +15,10 @@ class User(BaseModel, table=True):
     document: Optional[UserDocument] = Field(sa_column=Column("document", JSON))
     email: str
     first_name: str
-    id: UUID = Field(default=uuid4(), primary_key=True)
+    hashed_password: str
+    id: UUID = Field(default_factory=uuid4, nullable=False, primary_key=True)
     last_name: str
     modified_by: str
     modified_on: datetime
     row_version: str
-    status: UserStatus = Field(sa_column=Column("status", Enum(UserStatus)))
+    status: UserStatus = Field(sa_column=Column("status", Enum(UserStatus)), nullable=False)
