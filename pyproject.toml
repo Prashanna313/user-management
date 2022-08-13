@@ -1,0 +1,38 @@
+[build-system]
+requires=["setuptools", "wheel"]
+
+[tool.coverage.report]
+omit=["src/_version.py", "src/build/*", "src/user/database/*"]
+
+[tool.isort]
+line_length=160
+lines_between_sections=0
+
+[tool.pylint]
+# WARNING: Always disable C0330 last as there is a bug with Linux Pylint!
+disable=[]
+ignore=["env.py"]
+notes=[]
+
+[tool.pylint.MASTER]
+load-plugins= "pylint_quotes"
+
+[tool.pylint.STRING_QUOTES]
+docstring-quote="double"
+string-quote="double-avoid-escape"
+triple-quote="double"
+
+[tool.pyright]
+include=["migrations", "src", "tests"]
+exclude=["**/__pycache__", "**/*.zip"]
+pythonVersion="3.9"
+pythonPlatform="Linux"
+reportMissingImports=true
+reportPrivateImportUsage=true
+reportMissingTypeStubs=false
+venvPath="./venv"
+
+[tool.pytest.ini_options]
+junit_family="xunit1"
+python_files=["*Tests.py"]
+testpaths=["tests"]

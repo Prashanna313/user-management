@@ -1,0 +1,17 @@
+---
+version: "3.2"
+services:
+  pgadmin_local:
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=user@email.com
+      - PGADMIN_DEFAULT_PASSWORD=xxxx
+    image: dpage/pgadmin4
+    ports:
+      - 8080:80
+  postgres_local:
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    image: "postgres:12.2-alpine"
+    ports:
+      - 5432:5432
