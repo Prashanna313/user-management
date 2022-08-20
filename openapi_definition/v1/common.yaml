@@ -1,6 +1,38 @@
 components:
-  schemas:
-   Uuid:
-      format: uuid
-      pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
-      type: string
+    schemas:
+      ErrorResponse:
+        description: Generic error response from a request
+        properties:
+          errors:
+            items:
+              $ref: '#/components/schemas/Error'
+              minItems: 1
+            type: array
+        required:
+          - errors
+        type: object
+      Error:
+        properties:
+          cause:
+            description: If the error was caused by a non-validation error, the exception object will be here.
+            type: string
+          message:
+            description: A human readable message explaining the error.
+            type: string
+          jsonPath:
+            description: A JSON path to the offending element within the instance.
+            type: string
+          validator:
+            description: The name of the failed keyword
+            type: string
+          validatorValue:
+            description: The associated value for the failed keyword in the schema.
+            type: string
+        required:
+          - message
+        type: object
+      Uuid:
+        format: uuid
+        pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
+        type: string
+  
