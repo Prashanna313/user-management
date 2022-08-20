@@ -1,0 +1,79 @@
+components:
+  schemas:
+    GetUsersResponse:
+      properties:
+        items:
+          items:
+            $ref: ./user.yaml#/components/schemas/User
+          type: array
+        page:
+          format: int32
+          type: integer
+        pageSize:
+          format: int32
+          type: integer
+        totalCount:
+          format: int32
+          type: integer
+      type: object
+info:
+  description: User Management Microservice
+  title: User Management Microservice
+  version: v1.2
+openapi: 3.0.0
+paths:
+  /v1/users:
+    get:
+      description: |
+        By passing in the appropriate options, you can search for
+        available users in the system
+      operationId: getUsers
+      parameters:
+        - in: header
+          name: X-Correlation-ID
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: email
+          schema:
+            format: email
+            type: string
+        - in: query
+          name: userIds
+          schema:
+            items:
+              format: uuid
+              type: string
+            type: array
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUsersResponse'
+          description: A List of Users
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+          description: Validation error
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+        '500':
+          description: Internal server error
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+      summary: get users
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/api/v1/users

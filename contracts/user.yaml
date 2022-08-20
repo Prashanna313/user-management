@@ -1,0 +1,80 @@
+components:
+  schemas:
+    CreateUserRequest:
+      properties:
+        dateOfBirth:
+          description: 'format: yyyy-MM-dd'
+          format: date
+          type: string
+        gender:
+          $ref: '#/components/schemas/Gender'
+        isActive:
+          type: boolean
+        email:
+          format: email
+          maxLength: 256
+          type: string
+        firstName:
+          maxLength: 100
+          type: string
+        lastName:
+          maxLength: 100
+          type: string
+        password:
+          maxLength: 20
+          minLength: 8
+          pattern: ^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$
+          type: string
+      required:
+        - gender
+        - isActive
+        - email
+        - firstName
+        - lastName
+      type: object
+    Gender:
+      description: |
+        Gender values:
+         * `MALE` - MALE
+         * `FEMALE` - FEMALE
+         * `OTHER` - OTHER
+      enum:
+        - MALE
+        - FEMALE
+        - OTHER
+      type: string
+    User:
+      properties:
+        dateOfBirth:
+          description: 'Date of birth of the user in format: yyyy-MM-dd'
+          format: date
+          type: string
+        gender:
+          $ref: '#/components/schemas/Gender'
+        isActive:
+          description: 'Flag that represents the current state of the user'
+          type: boolean
+        email:
+          description: 'Email address of the user'
+          format: email
+          maxLength: 256
+          type: string
+        firstName:
+          description: 'First Name of the user'
+          maxLength: 100
+          type: string
+        id:
+          description: 'Unique ID relevant to the user'
+          $ref: ./common.yaml#/components/schemas/Uuid
+        lastName:
+          description: 'Last Name of the user'
+          maxLength: 100
+          type: string
+      required:
+        - email
+        - gender
+        - id
+        - isActive
+        - firstName
+        - lastName
+      type: object

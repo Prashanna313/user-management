@@ -3,6 +3,7 @@ from typing import Optional
 from uuid import UUID, uuid4
 from sqlmodel import JSON, Column, Enum, Field
 from user.database.BaseModel import BaseModel
+from user.database.Gender import Gender
 from user.database.UserDocument import UserDocument
 from user.database.UserStatus import UserStatus
 
@@ -13,6 +14,7 @@ class User(BaseModel, table=True):
     created_on: datetime
     date_of_birth: date
     document: Optional[UserDocument] = Field(sa_column=Column("document", JSON))
+    gender: Gender = Field(sa_column=Column("gender", Enum(Gender)), nullable=False)
     email: str
     first_name: str
     hashed_password: str
