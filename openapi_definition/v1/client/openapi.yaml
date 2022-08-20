@@ -1,0 +1,151 @@
+components:
+  schemas:
+    ErrorResponse:
+      description: Generic error response from a request
+      properties:
+        errors:
+          items:
+            properties:
+              cause:
+                description: If the error was caused by a non-validation error, the
+                  exception object will be here.
+                type: string
+              message:
+                description: A human readable message explaining the error.
+                type: string
+              jsonPath:
+                description: A JSON path to the offending element within the instance.
+                type: string
+              validator:
+                description: The name of the failed keyword
+                type: string
+              validatorValue:
+                description: The associated value for the failed keyword in the schema.
+                type: string
+            required:
+              - message
+            type: object
+          type: array
+      required:
+        - errors
+      type: object
+    GetUsersResponse:
+      properties:
+        users:
+          items:
+            properties:
+              dateOfBirth:
+                description: "Date of birth of the user in format: yyyy-MM-dd"
+                format: date
+                type: string
+              gender:
+                description: |
+                  Gender values:
+                   * `MALE` - MALE
+                   * `FEMALE` - FEMALE
+                   * `OTHER` - OTHER
+                enum:
+                  - MALE
+                  - FEMALE
+                  - OTHER
+                type: string
+              isActive:
+                description: Flag that represents the current state of the user
+                type: boolean
+              email:
+                description: Email address of the user
+                format: email
+                maxLength: 256
+                type: string
+              firstName:
+                description: First Name of the user
+                maxLength: 100
+                type: string
+              id:
+                format: uuid
+                pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
+                type: string
+              lastName:
+                description: Last Name of the user
+                maxLength: 100
+                type: string
+            required:
+              - email
+              - gender
+              - id
+              - isActive
+              - firstName
+              - lastName
+            type: object
+          type: array
+        page:
+          format: int32
+          type: integer
+        pageSize:
+          format: int32
+          type: integer
+        totalCount:
+          format: int32
+          type: integer
+      type: object
+info:
+  description: User Management Microservice
+  title: User Management Microservice
+  version: v1.0
+openapi: 3.0.0
+paths:
+  /v1/users:
+    get:
+      description: |
+        By passing in the appropriate options, you can search for
+        available users in the system
+      operationId: getUsers
+      parameters:
+        - in: header
+          name: X-Correlation-ID
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: email
+          schema:
+            format: email
+            type: string
+        - in: query
+          name: userIds
+          schema:
+            items:
+              format: uuid
+              type: string
+            type: array
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetUsersResponse"
+          description: A List of Users
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Validation error
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+        "500":
+          description: Internal server error
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+      summary: get users
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/api/v1/users
