@@ -2,8 +2,8 @@ from datetime import date, datetime
 from typing import Optional
 from uuid import UUID, uuid4
 from sqlmodel import JSON, Column, Enum, Field
-from user.database.BaseModel import BaseModel
-from user.database.Gender import Gender
+from user.database.models.BaseModel import BaseModel
+from user.database.models.Gender import Gender
 from user.database.UserDocument import UserDocument
 from user.database.UserStatus import UserStatus
 
