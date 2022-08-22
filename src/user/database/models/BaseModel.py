@@ -10,3 +10,6 @@ class BaseModel(SQLModel, table=False):
     modified_by: str
     modified_on: datetime
     row_version: str = str(uuid4())
+
+    class Config:
+        orm_mode = True

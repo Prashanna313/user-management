@@ -34,5 +34,6 @@ venvPath="./venv"
 
 [tool.pytest.ini_options]
 junit_family="xunit1"
+python_classes=""
 python_files=["*Tests.py"]
 testpaths=["tests"]

@@ -4,8 +4,8 @@ from uuid import UUID, uuid4
 from sqlmodel import JSON, Column, Enum, Field
 from user.database.models.BaseModel import BaseModel
 from user.database.models.Gender import Gender
-from user.database.UserDocument import UserDocument
-from user.database.UserStatus import UserStatus
+from user.database.models.UserDocument import UserDocument
+from user.database.models.UserStatus import UserStatus
 
 
 class User(BaseModel, table=True):

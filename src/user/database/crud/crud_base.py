@@ -9,17 +9,17 @@ from user.database.models.BaseModel import BaseModel
 ModelType = TypeVar("ModelType", bound=BaseModel)
 
 
-class CRUDBase:
-    def get(
-            self, 
-            db: Session, 
-            *, 
-            skip: int = 0, 
-            limit: int = 100,
-            where_clause: Optional[] = None) -> List[ModelType]:
-        query = db.query(self.model)
+class CRUDBase(Generic[ModelType]):
+    def __init__(self, connection: Session, model: Type[ModelType]):
+        self._connection: Session = connection
+        self.model: Type[ModelType] = model
+
+    def get(self, *, skip: int = 0, limit: int = 100, where_clause: Any = None) -> List[ModelType]:
+        query = self._connection.query(self.model)
+
         if where_clause:
-            query = db.query(self.model).filter(where_clause)
+            query = query.filter(where_clause)
+
         return query.offset(skip).limit(limit).all()
 
     def update():
