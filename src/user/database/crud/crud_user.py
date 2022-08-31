@@ -1,4 +1,5 @@
 from typing import List
+from uuid import UUID
 from sqlalchemy.orm import Session
 from user.database.crud.crud_base import CRUDBase
 from user.database.models.User import User
@@ -10,11 +11,11 @@ class CRUDUser(CRUDBase):
     def __init__(self, connection: Session):
         super().__init__(connection, User)
 
-    def create(self, *, obj_in: User) -> User:
-        self._connection.add(obj_in)
-        self._connection.commit()
-        self._connection.refresh(obj_in)
-        return obj_in
+    def create_user(self, *, user: User) -> User:
+        return super().create(obj_in=user)
+
+    def delete_user(self, *, id_: UUID) -> None:
+        return super().delete(id_=id_)
 
     def get_users(self, criteria: GetUserCriteria) -> List[User]:
         where_clause = UserSpecifications.create_where(criteria)

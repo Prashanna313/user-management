@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 from user.core.config import settings
 from user.v1.endpoints.create_user.create_user import router as CreateUserRouter
+from user.v1.endpoints.delete_user.delete_user import router as DeleteUserRouter
 from user.v1.endpoints.get_user.get_user import router as GetUserRouter
 
 app = FastAPI(
@@ -21,4 +22,5 @@ if settings.BACKEND_CORS_ORIGINS:
     )
 
 app.include_router(CreateUserRouter, prefix=settings.API_V1_STR)
+app.include_router(DeleteUserRouter, prefix=settings.API_V1_STR)
 app.include_router(GetUserRouter, prefix=settings.API_V1_STR)
