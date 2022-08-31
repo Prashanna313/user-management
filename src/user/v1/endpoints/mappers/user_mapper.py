@@ -48,7 +48,8 @@ class UserMapper:
         return DBUser(
             created_by="system",
             created_on=datetime.now(),
-            document= create_user.address and cls._to_domain_document(api_request=create_user.address),
+            # TODO: Need to fix JSONB inserts
+            # document= create_user.address and cls._to_domain_document(api_request=create_user.address),
             modified_by="system",
             modified_on=datetime.now(),
             date_of_birth=create_user.dateOfBirth,

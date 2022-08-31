@@ -1,5 +1,5 @@
 from typing import List, Optional
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic.networks import EmailStr
 from sqlalchemy.orm import Session
 from user.database import deps
@@ -52,6 +52,9 @@ def read_user_by_id(
 
     user_manager = UserManager(db_connection)
     domain_response = user_manager.get_users(api_criteria)
+
+    if not domain_response:
+        raise HTTPException(status_code=404, detail="User not found")
 
     api_response = UserMapper.to_api(domain_response[0])
     return api_response
