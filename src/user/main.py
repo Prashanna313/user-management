@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 from user.core.config import settings
-from user.v1.endpoints.get_user.get_user import router
+from user.v1.endpoints.create_user.create_user import router as CreateUserRouter
+from user.v1.endpoints.get_user.get_user import router as GetUserRouter
 
 app = FastAPI(
     description="List of API's for managing users",
@@ -19,4 +20,5 @@ if settings.BACKEND_CORS_ORIGINS:
         allow_headers=["*"],
     )
 
-app.include_router(router, prefix=settings.API_V1_STR)
+app.include_router(CreateUserRouter, prefix=settings.API_V1_STR)
+app.include_router(GetUserRouter, prefix=settings.API_V1_STR)

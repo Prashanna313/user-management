@@ -22,5 +22,5 @@ class User(BaseModel, table=True):
     last_name: str
     modified_by: str
     modified_on: datetime
-    row_version: str
+    row_version: str = Field(default=str(uuid4()), nullable=False)
     status: UserStatus = Field(sa_column=Column("status", Enum(UserStatus)), nullable=False)
