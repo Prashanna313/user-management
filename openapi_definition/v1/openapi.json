@@ -1,14 +1,17 @@
 {
     "openapi": "3.0.2",
     "info": {
-        "title": "test",
-        "version": "0.1.0"
+        "title": "User Management",
+        "description": "List of API's for managing users",
+        "version": "1.0.0"
     },
     "paths": {
         "/v1/users": {
             "get": {
+                "tags": [
+                    "user"
+                ],
                 "summary": "Read Users",
-                "description": "_summary_\n\nArgs:\n    db (Session, optional): _description_. Defaults to Depends(SessionLocal()).\n    skip (int, optional): _description_. Defaults to 0.\n    limit (int, optional): _description_. Defaults to 100.\n\nReturns:\n    GetUsersResponse: _description_",
                 "operationId": "read_users_v1_users_get",
                 "parameters": [
                     {
@@ -24,14 +27,11 @@
                     {
                         "required": false,
                         "schema": {
-                            "title": "User Ids",
-                            "type": "array",
-                            "items": {
-                                "type": "string",
-                                "format": "uuid"
-                            }
+                            "title": "Limit",
+                            "type": "integer",
+                            "default": 100
                         },
-                        "name": "user_ids",
+                        "name": "limit",
                         "in": "query"
                     },
                     {
@@ -47,20 +47,106 @@
                     {
                         "required": false,
                         "schema": {
-                            "title": "Limit",
-                            "type": "integer",
-                            "default": 100
+                            "title": "User Ids",
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
                         },
-                        "name": "limit",
+                        "name": "user_ids",
                         "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful Response",
+                        "description": "List of Users",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetUserResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Create User",
+                "operationId": "create_user_v1_users_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateUserRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "User details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserBase"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/users/{user_id}": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Read User By Id",
+                "description": "Get a specific user by id.",
+                "operationId": "read_user_by_id_v1_users__user_id__get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "User Id",
+                            "type": "string"
+                        },
+                        "name": "user_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserBase"
+                                }
                             }
                         }
                     },
@@ -80,6 +166,128 @@
     },
     "components": {
         "schemas": {
+            "Address": {
+                "title": "Address",
+                "required": [
+                    "addressLine1",
+                    "city",
+                    "country"
+                ],
+                "type": "object",
+                "properties": {
+                    "addressLine1": {
+                        "title": "Addressline1",
+                        "type": "string"
+                    },
+                    "addressLine2": {
+                        "title": "Addressline2",
+                        "type": "string"
+                    },
+                    "city": {
+                        "title": "City",
+                        "type": "string"
+                    },
+                    "country": {
+                        "title": "Country",
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateUserRequest": {
+                "title": "CreateUserRequest",
+                "required": [
+                    "createdBy",
+                    "createdOn",
+                    "dateOfBirth",
+                    "email",
+                    "firstName",
+                    "gender",
+                    "id",
+                    "lastName",
+                    "modifiedBy",
+                    "modifiedOn",
+                    "status"
+                ],
+                "type": "object",
+                "properties": {
+                    "address": {
+                        "$ref": "#/components/schemas/Address"
+                    },
+                    "createdBy": {
+                        "title": "Createdby",
+                        "type": "string"
+                    },
+                    "createdOn": {
+                        "title": "Createdon",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "dateOfBirth": {
+                        "title": "Dateofbirth",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "firstName": {
+                        "title": "Firstname",
+                        "type": "string"
+                    },
+                    "gender": {
+                        "$ref": "#/components/schemas/Gender"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "lastName": {
+                        "title": "Lastname",
+                        "type": "string"
+                    },
+                    "modifiedBy": {
+                        "title": "Modifiedby",
+                        "type": "string"
+                    },
+                    "modifiedOn": {
+                        "title": "Modifiedon",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "status": {
+                        "$ref": "#/components/schemas/UserStatus"
+                    }
+                }
+            },
+            "Gender": {
+                "title": "Gender",
+                "enum": [
+                    "MALE",
+                    "FEMALE",
+                    "OTHER"
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
+            "GetUserResponse": {
+                "title": "GetUserResponse",
+                "required": [
+                    "users"
+                ],
+                "type": "object",
+                "properties": {
+                    "users": {
+                        "title": "Users",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/UserBase"
+                        }
+                    }
+                }
+            },
             "HTTPValidationError": {
                 "title": "HTTPValidationError",
                 "type": "object",
@@ -92,6 +300,84 @@
                         }
                     }
                 }
+            },
+            "UserBase": {
+                "title": "UserBase",
+                "required": [
+                    "createdBy",
+                    "createdOn",
+                    "dateOfBirth",
+                    "email",
+                    "firstName",
+                    "gender",
+                    "id",
+                    "lastName",
+                    "modifiedBy",
+                    "modifiedOn",
+                    "status"
+                ],
+                "type": "object",
+                "properties": {
+                    "address": {
+                        "$ref": "#/components/schemas/Address"
+                    },
+                    "createdBy": {
+                        "title": "Createdby",
+                        "type": "string"
+                    },
+                    "createdOn": {
+                        "title": "Createdon",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "dateOfBirth": {
+                        "title": "Dateofbirth",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "firstName": {
+                        "title": "Firstname",
+                        "type": "string"
+                    },
+                    "gender": {
+                        "$ref": "#/components/schemas/Gender"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "lastName": {
+                        "title": "Lastname",
+                        "type": "string"
+                    },
+                    "modifiedBy": {
+                        "title": "Modifiedby",
+                        "type": "string"
+                    },
+                    "modifiedOn": {
+                        "title": "Modifiedon",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "status": {
+                        "$ref": "#/components/schemas/UserStatus"
+                    }
+                }
+            },
+            "UserStatus": {
+                "title": "UserStatus",
+                "enum": [
+                    "ACTIVE",
+                    "INACTIVE"
+                ],
+                "type": "string",
+                "description": "An enumeration."
             },
             "ValidationError": {
                 "title": "ValidationError",

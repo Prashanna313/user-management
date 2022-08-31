@@ -15,7 +15,8 @@ router = APIRouter()
 @router.get(
     "/users",
     response_description="List of Users",
-    response_model=GetUserResponse)
+    response_model=GetUserResponse,
+    tags=["user"])
 def read_users(
         db_connection: Session = Depends(deps.get_db),
         email: Optional[EmailStr] = None,
@@ -39,7 +40,8 @@ def read_users(
 @router.get(
     "/users/{user_id}",
     response_description="User details",
-    response_model=UserBase)
+    response_model=UserBase,
+    tags=["user"])
 def read_user_by_id(
         user_id: str,
         db_connection: Session = Depends(deps.get_db)) -> UserBase:
