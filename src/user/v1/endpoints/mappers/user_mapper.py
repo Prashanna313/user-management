@@ -36,9 +36,19 @@ class UserMapper:
 
     @classmethod
     def to_domain(cls, create_user: CreateUserRequest) -> DBUser:
+        """
+        Maps from API model to domain model
+
+        Args:
+            create_user (CreateUserRequest): API create user object
+
+        Returns:
+            DBUser: Domain user object
+        """
         return DBUser(
             created_by="system",
             created_on=datetime.now(),
+            document= create_user.address and cls._to_domain_document(create_user.address),
             modified_by="system",
             modified_on=datetime.now(),
             date_of_birth=create_user.dateOfBirth,
@@ -55,13 +65,31 @@ class UserMapper:
         Maps UserDocument to ApiAddress
 
         Args:
-            domain (UserDocument): _description_
+            domain (UserDocument): Domain user document object
 
         Returns:
-            Address: _description_
+            Address: API Address object
         """
         return Address(
             addressLine1=domain.address_line_1,
             addressLine2=domain.address_line_2,
             city=domain.city,
             country=domain.country)
+
+    @classmethod
+    def _to_domain_document(cls, *, api_request: Address) -> UserDocument:
+        """
+        Maps Address from API to domain model
+
+        Args:
+            api_request (Address): API Address object
+
+        Returns:
+            UserDocument: Domain user document object
+        """
+
+        return UserDocument(
+            address_line_1=api_request.addressLine1,
+            address_line_2=api_request.addressLine2,
+            city=api_request.city,
+            country=api_request.country)
