@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
-from user.v1.endpoints.get_user.get_user import router
 from user.core.config import settings
+from user.v1.endpoints.get_user.get_user import router
 
 app = FastAPI(
     description="List of API's for managing users",

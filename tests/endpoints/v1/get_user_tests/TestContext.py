@@ -1,6 +1,7 @@
 from user.database.models.User import User
 from .random_data.random_attributes import RandomUserAttributes
 
+
 class TestContext:
     def __init__(self) -> None:
         self.user_context: RandomUserAttributes = RandomUserAttributes()

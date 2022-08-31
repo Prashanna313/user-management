@@ -3,6 +3,7 @@ from uuid import UUID
 from user.database.models import Gender, UserStatus
 from .....utils.Randomizer import Randomizer
 
+
 class RandomUserAttributes:
     def __init__(self) -> None:
         self.created_by: str = Randomizer.random_str()

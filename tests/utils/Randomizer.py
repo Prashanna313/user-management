@@ -1,11 +1,11 @@
 import datetime
+import random
 from decimal import Decimal
 from enum import Enum
-import pytz
-import random
 from sys import maxsize
 from typing import Any, Optional, Sequence, Type
 from uuid import UUID, uuid4
+import pytz
 
 TEXT_ENCODING_UTF8 = "utf-8"
 
