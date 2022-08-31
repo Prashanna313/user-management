@@ -14,9 +14,9 @@ class User(BaseModel, table=True):
     created_on: datetime
     date_of_birth: date
     document: Optional[UserDocument] = Field(sa_column=Column("document", JSON))
-    gender: Gender = Field(sa_column=Column("gender", Enum(Gender)), nullable=False)
     email: str
     first_name: str
+    gender: Gender = Field(sa_column=Column("gender", Enum(Gender)), nullable=False)
     hashed_password: str
     id: UUID = Field(default_factory=uuid4, nullable=False, primary_key=True)
     last_name: str

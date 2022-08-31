@@ -8,10 +8,10 @@ class CRUDUser(CRUDBase):
     def __init__(self, connection: Session):
         super().__init__(connection, User)
 
-    def create(self, db: Session, *, obj_in: User) -> User:
-        db.add(obj_in)
-        db.commit()
-        db.refresh(obj_in)
+    def create(self, *, obj_in: User) -> User:
+        self._connection.add(obj_in)
+        self._connection.commit()
+        self._connection.refresh(obj_in)
         return obj_in
 
     def get_users(self, criteria) -> List[User]:
