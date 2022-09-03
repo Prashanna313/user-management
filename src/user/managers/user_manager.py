@@ -3,6 +3,7 @@ from uuid import UUID
 from sqlalchemy.orm import Session
 from user.database.crud.crud_user import CRUDUser
 from user.database.models.User import User
+from user.v1.endpoints.get_user.schemas.GetUserCriteria import GetUserCriteria
 
 
 class UserManager:
@@ -15,5 +16,5 @@ class UserManager:
     def delete_user(self, id_: UUID) -> None:
         return self._crud_user.delete_user(id_=id_)
 
-    def get_users(self, criteria) -> List[User]:
+    def get_users(self, criteria: GetUserCriteria) -> List[User]:
         return self._crud_user.get_users(criteria)

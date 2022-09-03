@@ -18,7 +18,15 @@ def create_user(
         *,
         db_connection: Session = Depends(deps.get_db),
         user: CreateUserRequest) -> UserBase:
+    """_summary_
 
+    Args:
+        user (CreateUserRequest): _description_
+        db_connection (Session, optional): _description_. Defaults to Depends(deps.get_db).
+
+    Returns:
+        UserBase: _description_
+    """
     domain_request = UserMapper.to_domain(user)
     user_manager = UserManager(db_connection)
     domain_response = user_manager.create_user(domain_request)

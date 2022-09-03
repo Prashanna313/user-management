@@ -23,6 +23,19 @@ def read_users(
         limit: int = 100,
         skip: int = 0,
         user_ids: Optional[List[str]] = Query(None)) -> GetUserResponse:
+    """
+    Get all users
+
+    Args:
+        db_connection (Session, optional): _description_. Defaults to Depends(deps.get_db).
+        email (Optional[EmailStr], optional): _description_. Defaults to None.
+        limit (int, optional): _description_. Defaults to 100.
+        skip (int, optional): _description_. Defaults to 0.
+        user_ids (Optional[List[str]], optional): Unique IDs of the users. Defaults to Query(None).
+
+    Returns:
+        GetUserResponse: _description_
+    """
 
     api_criteria = GetUserCriteria(
         email=email,
@@ -47,6 +60,16 @@ def read_user_by_id(
         db_connection: Session = Depends(deps.get_db)) -> UserBase:
     """
     Get a specific user by id.
+
+    Args:
+        user_id (str): Unique ID of the user
+        db_connection (Session, optional): db connection. Defaults to Depends(deps.get_db).
+
+    Raises:
+        HTTPException: _description_
+
+    Returns:
+        UserBase: _description_
     """
     api_criteria = GetUserCriteria(user_ids=[user_id])
 
