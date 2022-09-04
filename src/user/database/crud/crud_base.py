@@ -1,6 +1,6 @@
-from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union
+from typing import Any, Generic, List, Type, TypeVar
 from uuid import UUID
-from fastapi.encoders import jsonable_encoder
+from fastapi import HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from user.database.models.BaseModel import BaseModel
@@ -31,5 +31,15 @@ class CRUDBase(Generic[ModelType]):
 
         return query.offset(skip).limit(limit).all()
 
-    def update():
-        pass
+    def update(self, *, id_: UUID, obj_in: ModelType) -> ModelType:
+        existing_data: ModelType =  self._connection.query(self.model).filter(self.model.id == id_)
+        if not existing_data:
+            raise HTTPException(status_code=404, detail="not found")
+
+        update_data = obj_in.dict(exclude_unset=True)
+        for key, value in update_data.items():
+            setattr(existing_data, key, value)
+
+        self._connection.add(existing_data)
+        self._connection.commit()
+        self._connection.refresh(existing_data)

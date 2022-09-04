@@ -1,6 +1,5 @@
-from datetime import date, datetime
+from datetime import date
 from typing import Optional
-from uuid import UUID
 from pydantic import BaseModel, EmailStr
 from user.schemas.Address import Address
 from user.schemas.Gender import Gender

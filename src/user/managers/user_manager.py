@@ -18,3 +18,6 @@ class UserManager:
 
     def get_users(self, criteria: GetUserCriteria) -> List[User]:
         return self._crud_user.get_users(criteria)
+
+    def update_user(self, id_: UUID, user: User) -> User:
+        return self._crud_user.update(id_=id_, obj_in=user)
