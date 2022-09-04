@@ -2,7 +2,7 @@ from datetime import datetime
 from user.database.models import User as DBUser
 from user.database.models.UserDocument import UserDocument
 from user.schemas.Address import Address
-from user.schemas.UserBase import UserBase as ApiUser
+from user.schemas.UserResponse import UserResponse as ApiUser
 from user.v1.endpoints.create_user.schemas.CreateUserRequest import CreateUserRequest
 from user.v1.endpoints.mappers.gender_mapper import GenderEnumMapper
 from user.v1.endpoints.mappers.user_status_mapper import UserStatusEnumMapper
@@ -46,11 +46,8 @@ class UserMapper:
             DBUser: Domain user object
         """
         return DBUser(
-            created_by="system",
             created_on=datetime.now(),
             document=create_user.address and cls._to_domain_document(api_request=create_user.address),
-            modified_by="system",
-            modified_on=datetime.now(),
             date_of_birth=create_user.dateOfBirth,
             gender=GenderEnumMapper.to_domain(create_user.gender),
             email=create_user.email,

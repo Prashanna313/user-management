@@ -9,14 +9,9 @@ from user.schemas.UserStatus import UserStatus
 
 class UserBase(BaseModel):
     address: Optional[Address] = None
-    createdBy: str
-    createdOn: datetime
     dateOfBirth: date
     email: EmailStr
     firstName: str
     gender: Gender
-    id: UUID
     lastName: str
-    modifiedBy: str
-    modifiedOn: datetime
     status: UserStatus

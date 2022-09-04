@@ -13,7 +13,7 @@ class UserDocument(SQLModel, table=False):
         orm_mode = True
 
     @classmethod
-    def from_record(cls, record: Dict[str, Any])-> UserDocument:
+    def from_record(cls, record: Dict[str, Any]) -> UserDocument:
         return UserDocument(
             address_line_1=record["address_line_1"],
             address_line_2=record["address_line_2"],

@@ -4,7 +4,7 @@ from pydantic.networks import EmailStr
 from sqlalchemy.orm import Session
 from user.database import deps
 from user.managers.user_manager import UserManager
-from user.schemas.UserBase import UserBase
+from user.schemas.UserResponse import UserResponse
 from user.v1.endpoints.get_user.schemas.GetUserCriteria import GetUserCriteria
 from user.v1.endpoints.get_user.schemas.GetUserResponse import GetUserResponse
 from user.v1.endpoints.mappers.user_mapper import UserMapper
@@ -53,11 +53,11 @@ def read_users(
 @router.get(
     "/users/{user_id}",
     response_description="User details",
-    response_model=UserBase,
+    response_model=UserResponse,
     tags=["user"])
 def read_user_by_id(
         user_id: str,
-        db_connection: Session = Depends(deps.get_db)) -> UserBase:
+        db_connection: Session = Depends(deps.get_db)) -> UserResponse:
     """
     Get a specific user by id.
 
@@ -69,7 +69,7 @@ def read_user_by_id(
         HTTPException: _description_
 
     Returns:
-        UserBase: _description_
+        UserResponse: _description_
     """
     api_criteria = GetUserCriteria(user_ids=[user_id])
 
