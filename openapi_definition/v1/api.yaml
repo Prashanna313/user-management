@@ -78,4 +78,4 @@ paths:
       summary: get users
 servers:
   - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/api/v1/users
+    url: https://virtserver.swaggerhub.com/api

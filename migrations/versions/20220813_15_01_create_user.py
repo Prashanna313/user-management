@@ -1,7 +1,7 @@
 """create_user
 
 Revision ID: ea86be36e21f
-Revises: 
+Revises:
 Create Date: 2022-08-13 15:01:19.289168
 
 """
@@ -31,7 +31,6 @@ def upgrade():
     sa.Column('date_of_birth', sa.Date(), nullable=False),
     sa.Column('email', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
     sa.Column('first_name', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
-    sa.Column('hashed_password', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
     sa.Column('last_name', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
