@@ -52,7 +52,6 @@ class UserMapper:
             gender=GenderEnumMapper.to_domain(create_user.gender),
             email=create_user.email,
             first_name=create_user.firstName,
-            hashed_password="1234",  # TODO: user login functionality
             last_name=create_user.lastName,
             status=UserStatusEnumMapper.to_domain(create_user.status))
 

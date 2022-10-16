@@ -13,7 +13,6 @@ class RandomUserAttributes:
         self.gender: Gender = Randomizer.random_enum(Gender)
         self.email: str = Randomizer.random_str()
         self.first_name: str = Randomizer.random_str()
-        self.hashed_password: str = Randomizer.random_str()
         self.id: UUID = Randomizer.random_uuid()
         self.last_name: str = Randomizer.random_str()
         self.modified_by: str = Randomizer.random_str()

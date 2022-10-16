@@ -6,7 +6,7 @@ class TestContext:
     def __init__(self) -> None:
         self.user_context: RandomUserAttributes = RandomUserAttributes()
         self.build()
-    
+
     def build(self):
         self.existing_user: User = self._setup_user()
         self.expected_response: User = self._setup_user()
@@ -19,7 +19,6 @@ class TestContext:
             gender=self.user_context.gender,
             email=self.user_context.email,
             first_name=self.user_context.first_name,
-            hashed_password="1234",
             id=self.user_context.created_on,
             last_name=self.user_context.last_name,
             modified_by=self.user_context.modified_by,
