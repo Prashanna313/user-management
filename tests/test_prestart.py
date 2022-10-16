@@ -1,5 +1,5 @@
 import logging
-from user.database.Session import SessionLocal
+from user_management.database.Session import SessionLocal
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

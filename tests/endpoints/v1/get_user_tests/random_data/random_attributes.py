@@ -1,6 +1,6 @@
 from datetime import date, datetime
 from uuid import UUID
-from user.database.models import Gender, UserStatus
+from user_management.database.models import Gender, UserStatus
 from .....utils.Randomizer import Randomizer
 
 

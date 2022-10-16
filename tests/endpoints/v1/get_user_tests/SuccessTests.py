@@ -1,6 +1,6 @@
 from fastapi.testclient import TestClient
 from tests.endpoints.v1.get_user_tests.TestContext import TestContext
-from user.main import app
+from user_management.main import app
 from ....fixtures.ScopedTestData import ScopedTestData
 from .test_base import TestsBase
 

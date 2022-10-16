@@ -1,7 +1,7 @@
 from typing import List
 from uuid import UUID
 from sqlalchemy.orm import Session
-from user.database.models import User
+from user_management.database.models import User
 from .TestFixture import TestFixture
 
 

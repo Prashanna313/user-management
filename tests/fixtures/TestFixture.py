@@ -1,7 +1,7 @@
 from enum import Enum
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
-from user.core.config import settings
+from user_management.core.config import settings
 
 
 class TestFixture:

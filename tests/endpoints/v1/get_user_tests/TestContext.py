@@ -1,4 +1,4 @@
-from user.database.models.User import User
+from user_management.database.models.User import User
 from .random_data.random_attributes import RandomUserAttributes
 
 
