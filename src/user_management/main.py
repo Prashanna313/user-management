@@ -4,6 +4,7 @@ from user_management.core.config import settings
 from user_management.v1.endpoints.create_user.create_user import router as CreateUserRouter
 from user_management.v1.endpoints.delete_user.delete_user import router as DeleteUserRouter
 from user_management.v1.endpoints.get_user.get_user import router as GetUserRouter
+from user_management.v1.endpoints.update_user.update_user import router as UpdateUserRouter
 
 app = FastAPI(
     description="List of API's for managing users",
@@ -24,3 +25,4 @@ if settings.BACKEND_CORS_ORIGINS:
 app.include_router(CreateUserRouter, prefix=settings.API_V1_STR)
 app.include_router(DeleteUserRouter, prefix=settings.API_V1_STR)
 app.include_router(GetUserRouter, prefix=settings.API_V1_STR)
+app.include_router(UpdateUserRouter, prefix=settings.API_V1_STR)

@@ -7,11 +7,12 @@
 - Cloud agnostic and consistent across different environment with the help of `docker` build.
 
 ## OpenAPI Schema
-
+The swagger definition can be found in [openapi.json](openapi_definition/v1/openapi.json)
+![Swagger Definition](docs/openapi.PNG)
 ## Local development
 - To run this locally, you need postgres local DB, one can start that using below command <br>
 `docker-compose up -d postgres_local`
 
-- Once you've the postgres ready you can run the `;ocal_setup.sh` script to do the required setup.
+- Once you've the postgres ready you can run the `local_setup.sh` script to do the required setup.
 - After that start the app using below cmd <br>
     `uvicorn src.user_management.main:app --reload`

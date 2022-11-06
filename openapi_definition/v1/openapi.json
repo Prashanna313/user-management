@@ -12,6 +12,7 @@
                     "user"
                 ],
                 "summary": "Read Users",
+                "description": "Get all users\n\nArgs:\n    db_connection (Session, optional): _description_. Defaults to Depends(deps.get_db).\n    email (Optional[EmailStr], optional): _description_. Defaults to None.\n    limit (int, optional): _description_. Defaults to 100.\n    skip (int, optional): _description_. Defaults to 0.\n    user_ids (Optional[List[str]], optional): Unique IDs of the users. Defaults to Query(None).\n\nReturns:\n    GetUserResponse: _description_",
                 "operationId": "read_users_v1_users_get",
                 "parameters": [
                     {
@@ -85,6 +86,7 @@
                     "user"
                 ],
                 "summary": "Create User",
+                "description": "_summary_\n\nArgs:\n    user (CreateUserRequest): _description_\n    db_connection (Session, optional): _description_. Defaults to Depends(deps.get_db).\n\nReturns:\n    UserResponse: _description_",
                 "operationId": "create_user_v1_users_post",
                 "requestBody": {
                     "content": {
@@ -102,7 +104,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/UserBase"
+                                    "$ref": "#/components/schemas/UserResponse"
                                 }
                             }
                         }
@@ -126,7 +128,7 @@
                     "user"
                 ],
                 "summary": "Read User By Id",
-                "description": "Get a specific user by id.",
+                "description": "Get a specific user by id.\n\nArgs:\n    user_id (str): Unique ID of the user\n    db_connection (Session, optional): db connection. Defaults to Depends(deps.get_db).\n\nRaises:\n    HTTPException: _description_\n\nReturns:\n    UserResponse: _description_",
                 "operationId": "read_user_by_id_v1_users__user_id__get",
                 "parameters": [
                     {
@@ -145,7 +147,92 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/UserBase"
+                                    "$ref": "#/components/schemas/UserResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Delete User",
+                "description": "Delete an user by id",
+                "operationId": "delete_user_v1_users__user_id__delete",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "User Id",
+                            "type": "string"
+                        },
+                        "name": "user_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful Response"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Update User",
+                "description": "Update a specific user by id.\n\nArgs:\n    user_id (str): Unique ID of the user\n    db_connection (Session, optional): db connection. Defaults to Depends(deps.get_db).\n\nRaises:\n    HTTPException: 404 - User not found\n\nReturns:\n    UserResponse: _description_",
+                "operationId": "update_user_v1_users__user_id__patch",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "User Id",
+                            "type": "string"
+                        },
+                        "name": "user_id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateUserRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "User details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResponse"
                                 }
                             }
                         }
@@ -196,31 +283,17 @@
             "CreateUserRequest": {
                 "title": "CreateUserRequest",
                 "required": [
-                    "createdBy",
-                    "createdOn",
                     "dateOfBirth",
                     "email",
                     "firstName",
                     "gender",
-                    "id",
                     "lastName",
-                    "modifiedBy",
-                    "modifiedOn",
                     "status"
                 ],
                 "type": "object",
                 "properties": {
                     "address": {
                         "$ref": "#/components/schemas/Address"
-                    },
-                    "createdBy": {
-                        "title": "Createdby",
-                        "type": "string"
-                    },
-                    "createdOn": {
-                        "title": "Createdon",
-                        "type": "string",
-                        "format": "date-time"
                     },
                     "dateOfBirth": {
                         "title": "Dateofbirth",
@@ -239,23 +312,9 @@
                     "gender": {
                         "$ref": "#/components/schemas/Gender"
                     },
-                    "id": {
-                        "title": "Id",
-                        "type": "string",
-                        "format": "uuid"
-                    },
                     "lastName": {
                         "title": "Lastname",
                         "type": "string"
-                    },
-                    "modifiedBy": {
-                        "title": "Modifiedby",
-                        "type": "string"
-                    },
-                    "modifiedOn": {
-                        "title": "Modifiedon",
-                        "type": "string",
-                        "format": "date-time"
                     },
                     "status": {
                         "$ref": "#/components/schemas/UserStatus"
@@ -301,19 +360,13 @@
                     }
                 }
             },
-            "UserBase": {
-                "title": "UserBase",
+            "UpdateUserRequest": {
+                "title": "UpdateUserRequest",
                 "required": [
-                    "createdBy",
-                    "createdOn",
                     "dateOfBirth",
-                    "email",
                     "firstName",
                     "gender",
-                    "id",
                     "lastName",
-                    "modifiedBy",
-                    "modifiedOn",
                     "status"
                 ],
                 "type": "object",
@@ -321,14 +374,41 @@
                     "address": {
                         "$ref": "#/components/schemas/Address"
                     },
-                    "createdBy": {
-                        "title": "Createdby",
+                    "dateOfBirth": {
+                        "title": "Dateofbirth",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "firstName": {
+                        "title": "Firstname",
                         "type": "string"
                     },
-                    "createdOn": {
-                        "title": "Createdon",
-                        "type": "string",
-                        "format": "date-time"
+                    "gender": {
+                        "$ref": "#/components/schemas/Gender"
+                    },
+                    "lastName": {
+                        "title": "Lastname",
+                        "type": "string"
+                    },
+                    "status": {
+                        "$ref": "#/components/schemas/UserStatus"
+                    }
+                }
+            },
+            "UserBase": {
+                "title": "UserBase",
+                "required": [
+                    "dateOfBirth",
+                    "email",
+                    "firstName",
+                    "gender",
+                    "lastName",
+                    "status"
+                ],
+                "type": "object",
+                "properties": {
+                    "address": {
+                        "$ref": "#/components/schemas/Address"
                     },
                     "dateOfBirth": {
                         "title": "Dateofbirth",
@@ -347,14 +427,72 @@
                     "gender": {
                         "$ref": "#/components/schemas/Gender"
                     },
-                    "id": {
-                        "title": "Id",
+                    "lastName": {
+                        "title": "Lastname",
+                        "type": "string"
+                    },
+                    "status": {
+                        "$ref": "#/components/schemas/UserStatus"
+                    }
+                }
+            },
+            "UserResponse": {
+                "title": "UserResponse",
+                "required": [
+                    "dateOfBirth",
+                    "email",
+                    "firstName",
+                    "gender",
+                    "lastName",
+                    "status",
+                    "createdBy",
+                    "createdOn",
+                    "id",
+                    "modifiedBy",
+                    "modifiedOn"
+                ],
+                "type": "object",
+                "properties": {
+                    "address": {
+                        "$ref": "#/components/schemas/Address"
+                    },
+                    "dateOfBirth": {
+                        "title": "Dateofbirth",
                         "type": "string",
-                        "format": "uuid"
+                        "format": "date"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "firstName": {
+                        "title": "Firstname",
+                        "type": "string"
+                    },
+                    "gender": {
+                        "$ref": "#/components/schemas/Gender"
                     },
                     "lastName": {
                         "title": "Lastname",
                         "type": "string"
+                    },
+                    "status": {
+                        "$ref": "#/components/schemas/UserStatus"
+                    },
+                    "createdBy": {
+                        "title": "Createdby",
+                        "type": "string"
+                    },
+                    "createdOn": {
+                        "title": "Createdon",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "string",
+                        "format": "uuid"
                     },
                     "modifiedBy": {
                         "title": "Modifiedby",
@@ -364,9 +502,6 @@
                         "title": "Modifiedon",
                         "type": "string",
                         "format": "date-time"
-                    },
-                    "status": {
-                        "$ref": "#/components/schemas/UserStatus"
                     }
                 }
             },
